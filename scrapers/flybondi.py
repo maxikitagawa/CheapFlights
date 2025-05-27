@@ -1,6 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
 # Ruta a tu chromedriver.exe (ajustá si lo pusiste en otro lugar)
@@ -24,6 +27,19 @@ time.sleep(5)
 
 # Mostramos el contenido HTML de la página
 print(driver.page_source)
+
+input_origen = driver.find_element(By.ID, "origin-input")
+input_origen.clear()
+input_origen.send_keys("Buenos Aires")
+
+input_destino = driver.find_element(By.ID, "destination-input")
+input_destino.clear()
+input_destino.send_keys("Bariloche")
+
+wait = WebDriverWait(driver, 10)
+buttom_buscar = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Buscar vuelos')]")))
+buttom_buscar.click()
+print("Botón 'Buscar vuelos' clickeado correctamente.")
 
 # Cerrar el navegador (podés comentar esto para ver la página abierta)
 driver.quit()
